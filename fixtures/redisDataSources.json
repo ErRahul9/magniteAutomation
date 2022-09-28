@@ -1,0 +1,89 @@
+{
+  "price": {
+    "url": "core-dev-bidder-price-optimize.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "hm",
+    "method": "insertBidderObject",
+    "cpi": { "avg_cpi": 9001,"min_cpi": 980,"max_cpi": 999,"viewability_rate": 0}
+
+  },
+  "metadata": {
+    "url": "core-dev-bidder-metadata.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "hm",
+    "method": "insertMetadataCache",
+    "meta": {
+		"width": 123,
+		"height": 112,
+		"advertiser_id": 992,
+		"creative_id": 13,
+		"campaign_id": 112,
+		"line_item_id": 112,
+		"objective_id": 112,
+		"channel_id": 112,
+		"recency_threshold": 0,
+		"household_score_threshold": 0,
+		"viewability_score_threshold": 0,
+		"publisher_price_threshold": 0,
+		"pace_multiplier": 1
+	}
+  },
+  "household": {
+    "url": "core-dev-household-score.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "set"
+  },
+  "recency": {
+    "url": "core-dev-recency.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "set"
+  },
+  "members": {
+    "url": "core-dev-membership-opm.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "sadd",
+    "method": "insertMembershipData",
+    "meta": {
+      "ip": "10.20.999.123",
+      "segmentId": [123456,123453]
+    }
+  },
+  "approval": {
+    "url": "core-dev-rtb-dev-creative-approval-cache.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "sadd",
+    "method": "insertApprovalData",
+    "approve": {
+      "companyURL": "letest1.o",
+      "creative_id": [810576,11223]
+    }
+  },
+
+ "frequency": {
+    "url": "core-dev-bidder-frequency.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "sadd"
+  },
+ "blocked": {
+    "url": "core-dev-rtb-dev-blocksite-rep-group.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "set"
+  },
+  "budget": {
+    "url": "core-dev-rtb-dev-budget-rep-group.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "set",
+    "method": "insertBudget",
+    "keys": "campaignId",
+    "values": {
+      "budget1": 10000,
+      "budget2": 10000
+    }
+  },
+  "spend": {
+    "url": "core-dev-spend.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "set"
+  },
+  "CampaignBySeg": {
+    "type": "set",
+    "url": "core-dev-rtb-dev-campaign-rep-group.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "method": "insertCampaignBySegment"
+  },
+
+  "terms": {
+    "url": "core-dev-rtb-deliver-modifier-rep-group.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "set"
+  }
+}
+
