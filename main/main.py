@@ -2,17 +2,18 @@ import fileinput
 import json
 import os
 import re
+import shutil
 import sys
 import enumerator
 from config import globals
 from magnite.main.connectors import *
 from magnite.main.dataInsertion import dataInsertion
-
+import requests
 
 class main():
 
-    def __init__(self):
-        self.test = sys.argv[1]
+    def __init__(self,test):
+        self.test = test
         self.fixtures = globals(self).get("fixtures")
         self.driver = self.fixtures+"/driver.json"
         self.enum = enumerator.bid
@@ -21,10 +22,9 @@ class main():
         self.sqlFile = self.fixtures + "/data/insertData.json"
         self.driverFile = os.path.join(self.fixtures, "driver.json")
         self.redisFile = os.path.join(self.fixtures,"redisDataSources.json")
-
-
-
-
+        self.cleanData = os.path.join(self.fixtures,"data","cleanData.txt")
+        self.deleteData = os.path.join(self.fixtures, "data","deleteData.txt")
+        self.inputLoc = os.path.join(self.fixtures,"processFiles/")
 
     def setVariablesFromJsonFile(self):
         with open(self.driver) as jsonFile:
@@ -32,7 +32,7 @@ class main():
             testData = data.get(self.test)
         for values in self.enum:
             regex = re.compile(r'\b' + str(values.value) + r'\b')
-            for line in fileinput.input(self.sqlFile, inplace=1):
+            for line in fileinput.input(self.processFile, inplace=1):
                 if len(re.findall(regex, line)) > 0:
                     if "bundle" in line or "ip" in line:
                         line = line.replace(line,'"'+re.findall(regex, line)[0]+'"'+":"+'"'+str(testData.get(values.name))+'",')
@@ -42,7 +42,20 @@ class main():
                         sys.stdout.write(" " * 6 + line + '\n')
                 else:
                     sys.stdout.write(line)
+        newFileName = os.path.join(self.inputLoc,"bidrequest_{0}".format(self.test))
+        shutil.copyfile(self.processFile,newFileName)
 
+    def createListOfTestCases(self):
+        jsonPath = os.path.join(self.fixtures, "driver.json")
+        with open(jsonPath) as jFile:
+            data = json.load(jFile)
+            testPath = os.path.join(self.fixtures,"testCases.txt")
+            with open(testPath,"w+") as f:
+                for keys in data.keys():
+                    if self.test in keys:
+                        f.write(keys+'\n')
+            f.close()
+        jFile.close()
     def updateDatafileFromDriver(self):
         with open(self.driver) as jsonFile:
             data = json.load(jsonFile)
@@ -68,7 +81,7 @@ class main():
         with open(self.sqlFile,'w') as jfile:
             jfile.write(jobj)
         deletes = []
-        with open("magnite/fixtures/data/deleteData.txt",'r') as deleteFile:
+        with open(self.deleteData,'r') as deleteFile:
             for lines in deleteFile:
                 deleteQuery = lines.split("=")[0]
                 for keys in dictObj:
@@ -76,16 +89,10 @@ class main():
                         deleteQuery = deleteQuery+" = "+str(dictObj.get(keys))
                 deletes.append(deleteQuery)
         print(deletes)
-        with open("magnite/fixtures/data/cleanData.txt","w") as clean:
+        with open(self.cleanData,"w") as clean:
             for dels in deletes:
                 clean.write(dels+'\n')
         clean.close()
-
-
-
-
-
-
 
     def readJson(self,fileName):
         jFile = json.load(open(fileName))
@@ -136,18 +143,19 @@ class main():
         return retData
 
     def teardownDbData(self):
-        with open("magnite/fixtures/data/cleanData.txt") as deletes:
+        with open(self.cleanData) as deletes:
             for lines in deletes:
                 print("deleting {0}".format(lines))
                 connectToPostgres("integration-dev.crvrygavls2u.us-west-2.rds.amazonaws.com","qacore","qa#core07#19",5432,lines)
 
 
-
-if __name__ == '__main__':
-    data = dataInsertion()
-    main().teardown(data)
-    main().teardownDbData()
-    main().setVariablesFromJsonFile()
-    main().updateDatafileFromDriver()
-    dataInsertion().insertDataIntoTables()
-    main().runDatainserts(data)
+# if __name__ == '__main__':
+    # data = dataInsertion("MagniteBidRequestIpValidation")
+    # main("MagniteBidRequestIpValidation").teardown(data)
+    # main("MagniteBidRequestIpValidation").teardownDbData()
+    # main("MagniteBidRequestIpValidation").setVariablesFromJsonFile()
+    # main("MagniteBidRequestIpValidation").updateDatafileFromDriver()
+    # dataInsertion("MagniteBidRequestIpValidation").insertDataIntoTables()
+    # main("MagniteBidRequestIpValidation").runDatainserts(data)
+    # main("MagniteBidRequestIpValidation").createListOfTestCases()
+    # main().runnerRunner()

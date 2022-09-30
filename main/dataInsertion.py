@@ -12,8 +12,8 @@ from magnite.main.connectors import *
 
 
 class dataInsertion():
-    def __init__(self):
-        self.test = sys.argv[1]
+    def __init__(self,test):
+        self.test = test
 
 
 
@@ -108,6 +108,7 @@ class dataInsertion():
         key = testData.get("ip")
         value.append(testData.get("segmentId"))
         cache = metadata.get("members").get("url")
+        print("inserting membership data for {0} with segment {1}".format(key,value))
         # cache = "core-dev-membership-opm.pid24g.clustercfg.usw2.cache.amazonaws.com"
         createNewJsonObject = {"mapping": {}}
         mapping = createNewJsonObject["mapping"]
@@ -242,14 +243,4 @@ class dataInsertion():
 
 
 
-    # def deletePostgresData(self):
-    #     sql = self.insertDataIntoTables()
-    #     for stmts in sql:
-    #         if (len(stmts)> 0):
-    #             print(stmts.split(" "))
 
-
-
-
-if __name__ == '__main__':
-    print(dataInsertion().insertDataIntoTables())

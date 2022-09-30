@@ -27,30 +27,17 @@ def connectToCache(host, port, mapping, key,action,insertType):
     return getValue
 
 
-'''
-integration-dev.crvrygavls2u.us-west-2.rds.amazonaws.com
-user: qacore 
-5432
-qa#core07#19
-
-
-'''
 def connectToPostgres(dburl,user,passd,port,query):
     conn = psycopg2.connect(database="qacoredb", user=user, password=passd, host= dburl, port=port)
     conn.autocommit = True
     cursor = conn.cursor()
-    print("inserting data into postgres")
+    # print("inserting data into postgres for {0}".format(query))
     cursor.execute(query)
-    print("insert complete")
+    # print("insert complete")
     conn.commit()
     conn.close()
     return cursor
 
 
-
-
-# if __name__ == '__main__':
-    # conn = connectToPostgres("integration-dev.crvrygavls2u.us-west-2.rds.amazonaws.com","qacore","qa#core07#19",5432)
-    # conn.execute
 
 

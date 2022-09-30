@@ -1,7 +1,64 @@
 {
-  "BidRequestIpValidation": {
+  "MagniteBidRequestIpValidation": {
     "ip": "10.99.997.95",
     "companyURL": "kom.googletest1.online",
+    "blockedList": false,
+    "width": "999",
+    "height": "888",
+    "duration": "90",
+    "linear": 1,
+    "skip": 0,
+    "appFlag": true,
+    "videoFlag": true,
+    "caches": [ "price", "CampaignBySeg", "metadata", "budget","approval","members"],
+      "advertiser_id": 99778899,
+      "segmentId" : 9876001,
+      "steelhouseId": "steelhouse-99887711",
+      "line_item_id": 11234,
+      "advertiserPmpWhiteListEligible": false,
+      "campGrpId": 1189,
+      "campStatusId": 8,
+      "campaign_id": 102114,
+      "channel_id": 8,
+      "companyUrl": "kom.googletest1.online",
+      "creative_id": 810576,
+      "creativeMetadata":[{
+          "creative_id": 810576,
+          "height": 1080,
+          "mediaDurationSeconds": 30.0,
+          "width": 1920,
+          "linearity": 1
+        },
+        {
+          "creative_id": 810575,
+          "height": 1080,
+          "mediaDurationSeconds": 30.0,
+          "width": 1920,
+          "linearity": 1
+        }
+        ]
+      ,
+      "currency": "USD",
+      "budget": 1000000,
+      "deleted": false,
+      "endTime": "2024-01-28 08:00:00",
+      "fcap": 5,
+      "fcapDuration": 30,
+      "name": "test 1 Copy 01",
+      "objective_id": 4,
+      "pace": "1",
+      "pace_multiplier": 1,
+      "startTime": "2019-01-28 08:00:00",
+      "cap": 0,
+      "recency_threshold": 0, "household_score_threshold": 0, "viewability_score_threshold": 0, "publisher_price_threshold": 0,
+      "timezone": "America/Los_Angeles",
+      "active": false,
+    "pmp_whitelist_eligible": false,
+    "delivery_modifiers": 121
+    },
+  "MagniteBidRequestIpValidation2": {
+    "ip": "10.99.997.94",
+    "companyURL": "kom.googletest2.online",
     "blockedList": false,
     "width": "1000",
     "height": "800",
@@ -52,7 +109,7 @@
       "cap": 0,
       "recency_threshold": 0, "household_score_threshold": 0, "viewability_score_threshold": 0, "publisher_price_threshold": 0,
       "timezone": "America/Los_Angeles",
-      "active": true,
+      "active": false,
     "pmp_whitelist_eligible": false,
     "delivery_modifiers": 121
     }
