@@ -10,7 +10,7 @@
 			"id": "7wy0wwwwww"
 		},
 		"id": "h3vdevvvvv-ed4sh",
-      "bundle":"https://kom.googletest1.online",
+      "bundle":"https://kom.googletest10.online",
 		"content": {
 			"prodq": 0,
 			"videoquality": 0,
@@ -48,12 +48,12 @@
 			"boxingallowed": 1,
 			"maxextended": -1,
       "linearity" : 1,
-      "maxduration" : 90,
-      "w" : 999,
-      "h" : 888,
+      "maxduration" : 82,
+      "w" : 990,
+      "h" : 880,
 			"startdelay": 0,
 			"placement": 1,
-      "skip":"0",
+      "skip":"1",
 			"protocols": [
 				2,
 				5
@@ -84,7 +84,7 @@
 	"device": {
 		"os": "ios",
 		"ifa": "7BE6B096-B911-48D6-9B6D-30617ADA67A4",
-      "ip":"10.77.888.99",
+      "ip":"10.77.888.91",
 		"language": "en",
 		"dnt": 0,
 		"ua": "Mozilla/5.0 (iPad; CPU OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79",

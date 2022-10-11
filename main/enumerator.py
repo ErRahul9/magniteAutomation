@@ -8,6 +8,7 @@ class bid(enum.Enum):
     duration ="maxduration"
     width ="w"
     linear = "linearity"
+    skip="skip"
 
 class database(enum.Enum):
     campaign_id = "campaign_id"

@@ -1,0 +1,13 @@
+bidRequest_MagniteBidRequestIpValidation : <Response [200]> : 200 : {"cur":"USD","id":"edab1a7c-36d2-4b59-8e93-4f3d2d6d328a","seatbid":[{"bid":[{"adid":"","adomain":["https://kom.googletest1.online"],"attr":[],"cid":"11557799","crid":"99447755","id":"09818fd0-1554-4c1f-a2be-a6281af1d84f","impid":"1","iurl":"","nurl":"https://ads.mountain.com/serve99447755?aid=99778899&cid=11557799&crid=99447755&cgid=1189&eid=150&cb=ba2cfc4b-da76-4b78-a9f0-94ab49fd1bdc&ttd_impression_id=edab1a7c-36d2-4b59-8e93-4f3d2d6d328a&sh_ref=https://kom.googletest1.online&tdid=10.77.888.99&did=&dev=TABLET&term_id=","price":9,"dealid":""}],"seat":""}],"nbr":null,"bidid":"09818fd0-1554-4c1f-a2be-a6281af1d84f"}
+bidRequest_MagniteBidRequestCompanyUrl : <Response [200]> : 200 : {"cur":"USD","id":"edab1a7c-36d2-4b59-8e93-4f3d2d6d328a","seatbid":[{"bid":[{"adid":"","adomain":["https://kom.googletest2.online"],"attr":[],"cid":"11557798","crid":"99447754","id":"59238e15-d33c-4812-ace0-65f8dffdd51a","impid":"1","iurl":"","nurl":"https://ads.mountain.com/serve99447754?aid=99778898&cid=11557798&crid=99447754&cgid=1189&eid=150&cb=9974273a-bdcb-4398-adc5-50c07644bd3f&ttd_impression_id=edab1a7c-36d2-4b59-8e93-4f3d2d6d328a&sh_ref=https://kom.googletest2.online&tdid=10.77.888.98&did=&dev=TABLET&term_id=","price":9,"dealid":""}],"seat":""}],"nbr":null,"bidid":"59238e15-d33c-4812-ace0-65f8dffdd51a"}
+bidRequest_MagniteBidRequestTimeZoneEST : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestTimeZonePST : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestTimeZoneMST : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestTimeZoneAST : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestTimeZoneCST : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestLinearNotEqualTo1 : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestSkipNotEqualTo0 : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestESTCampaignStartAfter : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestESTCampaignStartBeforeEndBefore : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestESTCampaignStartBeforeEndAfter : <Response [204]> : 204 : 
+bidRequest_MagniteBidRequestESTCampaignStartAndEndDateEqual : <Response [204]> : 204 : 

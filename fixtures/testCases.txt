@@ -1,2 +1,1 @@
-MagniteBidRequestIpValidation
-MagniteBidRequestIpValidation2
+MagniteBidRequestESTCampaignStartAndEndDateNotAvailable

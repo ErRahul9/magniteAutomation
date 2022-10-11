@@ -4,7 +4,7 @@ import sys
 from datetime import timedelta, datetime, time
 
 from pyparsing import unicode
-
+from dotenv import load_dotenv
 from config import globals
 from enumerator import database
 from magnite.main import enumerator
@@ -14,9 +14,6 @@ from magnite.main.connectors import *
 class dataInsertion():
     def __init__(self,test):
         self.test = test
-
-
-
 
     def readConf(self):
         retObj = {}
@@ -213,6 +210,7 @@ class dataInsertion():
         return key,createNewJsonObject,cache
 
     def insertDataIntoTables(self):
+        load_dotenv()
         metadata = json.load(open(self.readConf().get("dataFile")))
         sqlstatement = ''
         for table in metadata.get("tables"):
@@ -237,7 +235,7 @@ class dataInsertion():
         for inserts in stmts:
             if len(inserts) > 0:
                 print(inserts)
-                connectToPostgres("integration-dev.crvrygavls2u.us-west-2.rds.amazonaws.com", "qacore", "qa#core07#19", 5432,inserts)
+                connectToPostgres(os.environ['POSTGRES_HOST'],os.environ['POSTGRES_USER'],os.environ['POSTGRES_PW'],os.environ['POSTGRES_PORT'],inserts)
         return stmts
 
 

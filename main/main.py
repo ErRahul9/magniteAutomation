@@ -4,15 +4,20 @@ import os
 import re
 import shutil
 import sys
+from dotenv import load_dotenv
+from pyparsing import unicode
+
 import enumerator
 from config import globals
 from magnite.main.connectors import *
 from magnite.main.dataInsertion import dataInsertion
 import requests
+from datasetUps import datasetups
 
 class main():
 
     def __init__(self,test):
+        load_dotenv()
         self.test = test
         self.fixtures = globals(self).get("fixtures")
         self.driver = self.fixtures+"/driver.json"
@@ -24,9 +29,11 @@ class main():
         self.redisFile = os.path.join(self.fixtures,"redisDataSources.json")
         self.cleanData = os.path.join(self.fixtures,"data","cleanData.txt")
         self.deleteData = os.path.join(self.fixtures, "data","deleteData.txt")
+        self.insertData = os.path.join(self.fixtures, "data", "insertData.json")
         self.inputLoc = os.path.join(self.fixtures,"processFiles/")
 
     def setVariablesFromJsonFile(self):
+        datasetups(self.test).readDriver()
         with open(self.driver) as jsonFile:
             data = json.load(jsonFile)
             testData = data.get(self.test)
@@ -52,10 +59,11 @@ class main():
             testPath = os.path.join(self.fixtures,"testCases.txt")
             with open(testPath,"w+") as f:
                 for keys in data.keys():
-                    if self.test in keys:
+                    if self.test.lower() in keys.lower():
                         f.write(keys+'\n')
             f.close()
         jFile.close()
+
     def updateDatafileFromDriver(self):
         with open(self.driver) as jsonFile:
             data = json.load(jsonFile)
@@ -88,7 +96,6 @@ class main():
                     if keys in lines:
                         deleteQuery = deleteQuery+" = "+str(dictObj.get(keys))
                 deletes.append(deleteQuery)
-        print(deletes)
         with open(self.cleanData,"w") as clean:
             for dels in deletes:
                 clean.write(dels+'\n')
@@ -122,40 +129,65 @@ class main():
             print("{0} record is inserted for {1}".format(retVal,cache))
         return returnObj
 
-    def teardown(self, data):
-        jsonData = self.readJson(self.driverFile)
+    def teardown(self):
         cacheData = self.readJson(self.redisFile)
-        caches = jsonData.get("caches")
-        cacheNames  = []
+        caches =[]
+        for vals in cacheData:
+            caches.append(cacheData.get(vals).get("url"))
         retData = []
         for cache in caches:
-            cacheNames.append(cacheData.get(cache).get("method"))
-        print(cacheNames)
-        for funcs in cacheNames:
-            method = getattr(data, funcs)
-            methodCall = method()
             key = "methodCall[0]"
             metadata = "methodCall[1]"
             insertType = "delete"
-            cache = methodCall[2]
+            # cache = cache
+            print("deleting data from cache {0}".format(cache))
             retVal = connectToCache(cache, 6379, metadata, key, "delete",insertType)
-            retData.append("deleted :  " + key[0] + "   :" + str(retVal))
+            retData.append("deleted :  " + cache + "   :" + str(retVal))
+
         return retData
 
     def teardownDbData(self):
         with open(self.cleanData) as deletes:
             for lines in deletes:
                 print("deleting {0}".format(lines))
-                connectToPostgres("integration-dev.crvrygavls2u.us-west-2.rds.amazonaws.com","qacore","qa#core07#19",5432,lines)
+                connectToPostgres(os.environ['POSTGRES_HOST'], os.environ['POSTGRES_USER'], os.environ['POSTGRES_PW'],os.environ['POSTGRES_PORT'], lines)
 
+
+    def insertDataIntoTables(self):
+        metadata = json.load(open(self.insertData))
+        sqlstatement = ''
+        for table in metadata.get("tables"):
+            tablename = "bidder."+table
+            keylist = "("
+            valuelist = "("
+            firstPair = True
+            for key,value in metadata.get("tables").get(table).items():
+                if not firstPair:
+                    keylist += ", "
+                    valuelist += ", "
+                firstPair = False
+                keylist += key
+                if type(value) in (str, unicode):
+                    valuelist += "'" + value + "'"
+                else:
+                    valuelist += str(value)
+            keylist += ")"
+            valuelist += ")"
+            sqlstatement += "INSERT INTO " + tablename + " " + keylist + " VALUES " + valuelist + "\n"
+        stmts = sqlstatement.split("\n")
+        for inserts in stmts:
+            if len(inserts) > 0:
+                print(inserts)
+                connectToPostgres(os.environ['POSTGRES_HOST'], os.environ['POSTGRES_USER'], os.environ['POSTGRES_PW'], os.environ['POSTGRES_PORT'], inserts)
+        return stmts
 
 # if __name__ == '__main__':
-    # data = dataInsertion("MagniteBidRequestIpValidation")
-    # main("MagniteBidRequestIpValidation").teardown(data)
-    # main("MagniteBidRequestIpValidation").teardownDbData()
-    # main("MagniteBidRequestIpValidation").setVariablesFromJsonFile()
-    # main("MagniteBidRequestIpValidation").updateDatafileFromDriver()
-    # dataInsertion("MagniteBidRequestIpValidation").insertDataIntoTables()
-    # main("MagniteBidRequestIpValidation").runDatainserts(data)
-    # main("MagniteBidRequestIpValidation").createListOfTestCases()
+#     data = dataInsertion("MagniteBidRequestTimeZonePST")
+#     main("MagniteBidRequestTimeZonePST").teardown()
+#     main("MagniteBidRequestTimeZonePST").teardownDbData()
+#     main("MagniteBidRequestTimeZonePST").setVariablesFromJsonFile()
+#     main("MagniteBidRequestTimeZonePST").updateDatafileFromDriver()
+#     dataInsertion("MagniteBidRequestIpValidation").insertDataIntoTables()
+#     main("MagniteBidRequestIpValidation").runDatainserts(data)
+#     main("MagniteBidRequestIpValidation").createListOfTestCases()
     # main().runnerRunner()
