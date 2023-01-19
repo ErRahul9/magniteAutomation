@@ -1,0 +1,111 @@
+{
+	"app": {
+		"privacypolicy": 1,
+		"storeurl": "https://play.google.com/store/apps/details?id=com.podcast.podcastscom.tremorvideo,sample",
+		"domain": "castbox.fmtelaria.com",
+		"name": "MusicBox - Audiocaster Radio MusicTelaria ",
+		"paid": 0,
+		"publisher": {
+			"name": "TelariaMusicCo",
+			"id": "7wy0wwwwww"
+		},
+		"id": "h3vdevvvvv-ed4sh",
+      "bundle":"https://kom.googletest15.online",
+		"content": {
+			"prodq": 0,
+			"videoquality": 0,
+			"cat": [
+				"IAB9-30"
+			],
+			"id": "1532001983"
+		}
+	},
+	"ext": {},
+	"cur": [
+		"USD"
+	],
+	"tmax": 250,
+	"regs": {
+		"ext": {
+			"gdpr": 0
+		},
+		"coppa": 0
+	},
+	"source": {
+		"pchain": "1a4e959a1b50034a:jttusxjk5d"
+	},
+	"imp": [{
+		"ext": {
+			"viewabilityvendors": [
+				"moat.com"
+			]
+		},
+		"tagid": "jttus-xjk5d",
+		"displaymanager": "mobiletag",
+		"displaymanagerver": "1.0",
+		"id": "1",
+		"video": {
+			"boxingallowed": 1,
+			"maxextended": -1,
+      "linearity" : 1,
+      "maxduration" : 78,
+      "w" : 985,
+      "h" : 875,
+			"startdelay": 0,
+			"placement": 1,
+      "skip":"0",
+			"protocols": [
+				2,
+				5
+			],
+			"minduration": 0,
+			"mimes": [
+				"video/mp4"
+			]
+		},
+		"secure": 0,
+		"exp": 300,
+		"instl": 0
+	}],
+	"at": 2,
+	"bcat": [
+		"IAB8-5",
+		"IAB9-30",
+		"IAB25-3",
+		"IAB23",
+		"IAB8-18",
+		"IAB13-3",
+		"IAB25-2",
+		"IAB14-1",
+		"IAB11-4",
+		"IAB9-9"
+	],
+	"id": "edab1a7c-36d2-4b59-8e93-4f3d2d6d328a",
+	"device": {
+		"os": "ios",
+		"ifa": "7BE6B096-B911-48D6-9B6D-30617ADA67A4",
+      "ip":"10.77.888.86",
+		"language": "en",
+		"dnt": 0,
+		"ua": "Mozilla/5.0 (iPad; CPU OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79",
+		"devicetype": 5,
+		"geo": {
+			"country": "VNM",
+			"metro": "0",
+			"ipservice": 3,
+			"utcoffset": 420,
+			"region": "SG",
+			"type": 2
+		},
+		"lmt": 0,
+		"osv": "11.4",
+		"model": "iPad6,11",
+		"connectiontype": 2,
+		"dpidsha1": "6452de98adeaad4c299d1d244fbadce23777c0ab"
+	},
+	"user": {},
+	"badv": [
+		"blockeddomain1.com",
+		"blockeddomain2.com"
+	]
+}

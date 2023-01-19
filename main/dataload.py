@@ -5,10 +5,10 @@ import os
 import sys
 import json
 from pyformance import MetricsRegistry
-from wavefront_pyformance.wavefront_reporter import WavefrontDirectReporter
+# from wavefront_pyformance.wavefront_reporter import WavefrontDirectReporter
 from psycopg2.extras import RealDictCursor
 from rediscluster import RedisCluster
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 FORMAT = '%(asctime)-15s %(message)s'
 logging.basicConfig(format=FORMAT)
 logger = logging.getLogger()
@@ -19,7 +19,7 @@ print(os.environ.get("REDIS_PORT"))
 reg = MetricsRegistry()
 rowCountGauge = reg.gauge("query.creativeId")
 refresherTimer = reg.timer("refresh.processing")
-load_dotenv()
+# load_dotenv()
 
 
 

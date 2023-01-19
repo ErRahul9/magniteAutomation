@@ -1,0 +1,1 @@
+bidRequest_MagniteBidRequestIpValidation : <Response [400]> : 400 : {"timestamp":"2023-01-18T18:37:28.664+00:00","status":400,"error":"Bad Request","path":"/magnite/bidder"}

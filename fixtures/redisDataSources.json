@@ -28,14 +28,16 @@
   },
   "household": {
     "url": "core-dev-household-score.pid24g.clustercfg.usw2.cache.amazonaws.com",
-    "type": "set"
+    "type": "hm",
+    "method": "insertHouseholdScore"
   },
   "recency": {
     "url": "core-dev-recency.pid24g.clustercfg.usw2.cache.amazonaws.com",
-    "type": "set"
+    "type": "hm",
+    "method": "insertRecencyData"
   },
   "members": {
-    "url": "core-dev-membership-opm.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "url": "core-dev-membership.pid24g.clustercfg.usw2.cache.amazonaws.com",
     "type": "sadd",
     "method": "insertMembershipData",
     "meta": {
@@ -48,7 +50,7 @@
     "type": "sadd",
     "method": "insertApprovalData",
     "approve": {
-      "companyURL": "letest1.o",
+      "companyURL": "",
       "creative_id": [810576,11223]
     }
   },
@@ -57,18 +59,34 @@
     "url": "core-dev-bidder-frequency.pid24g.clustercfg.usw2.cache.amazonaws.com",
     "type": "sadd"
   },
- "blocked": {
+ "blockedCampaign": {
     "url": "core-dev-rtb-dev-blocksite-rep-group.pid24g.clustercfg.usw2.cache.amazonaws.com",
-    "type": "set"
-  },
+    "type": "sadd",
+   "method": "insertBlockedCampaign"
+ },
+   "blockedGlobal": {
+    "url": "core-dev-rtb-dev-blocksite-rep-group.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "set",
+   "method": "insertBlockedGlobal"
+ },
   "budget": {
     "url": "core-dev-rtb-dev-budget-rep-group.pid24g.clustercfg.usw2.cache.amazonaws.com",
     "type": "set",
     "method": "insertBudget",
     "keys": "campaignId",
     "values": {
-      "budget1": 10000,
-      "budget2": 10000
+      "budget1": 240000,
+      "budget2": 240000
+    }
+  },
+  "budgetHourly": {
+    "url": "core-dev-rtb-dev-budget-rep-group.pid24g.clustercfg.usw2.cache.amazonaws.com",
+    "type": "hm",
+    "method": "insertBudgetHourly",
+    "keys": "campaignId",
+    "values": {
+      "budget1": 240000,
+      "budget2": 240000
     }
   },
   "spend": {

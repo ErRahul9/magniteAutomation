@@ -1,10 +1,10 @@
 import json
 import os.path
 import sys
-from datetime import timedelta, datetime, time
-
+from datetime import timedelta, datetime
+import time
 from pyparsing import unicode
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from config import globals
 from enumerator import database
 from magnite.main import enumerator
@@ -61,18 +61,30 @@ class dataInsertion():
         getCPIData = meta.get("cpi")
         driverFile = self.readConf().get("driver")
         testData = driverFile.get(self.test)
+        viewability = 0
+        scores = testData.get("scores")
+        for keys, values  in scores.items():
+            if "viewability_score" in keys:
+                viewability = values
+            else:
+                viewability = 0
+        # viewability = testData.get("scores").get("viewability_score")
         createNewJsonObject  = {"mapping":{}}
         mapping = createNewJsonObject["mapping"]
         mapping[str(testData.get("width"))+":"+str(testData.get("height"))+"_avg_cpi"] = getCPIData.get("avg_cpi")
         mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_min_cpi"] = getCPIData.get("min_cpi")
         mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_max_cpi"] = getCPIData.get("max_cpi")
-        mapping["viewability_rate"] = getCPIData.get("viewability_rate")
+        # mapping["viewability_rate"] = getCPIData.get("viewability_rate")
+        mapping["viewability_rate"] = viewability
         key = testData.get("companyURL")
         cache = metadata.get("price").get("url")
         # cache = "core-dev-bidder-price-optimize.pid24g.clustercfg.usw2.cache.amazonaws.com"
         # cache = "core-dev-bidder-price.pid24g.clustercfg.usw2.cache.amazonaws.com"
         print(key, createNewJsonObject, cache,insertType)
         return key,createNewJsonObject,cache,insertType
+
+
+
 
 
 
@@ -85,7 +97,7 @@ class dataInsertion():
         createNewJsonObject = {"mapping": {}}
         dt = round(time.time()*1000) - 11*1000
         mapping = createNewJsonObject["mapping"]
-        getChecks = testData.get("recency")
+        getChecks = testData.get("scores").get("recency")
         for i in range(0,len(getChecks)):
             times =  getChecks[i]
             dt = int((datetime.utcnow() - datetime(1970, 1, 1)).total_seconds())*1000 - times *60000
@@ -159,6 +171,24 @@ class dataInsertion():
         mapping[key] = value
         return key,createNewJsonObject,cache,insertType
 
+    def insertBudgetHourly(self):
+        getDate = str(datetime.now()).split(" ")[0]
+        metadata = json.load(open(self.readConf().get("redisFile")))
+        insertType = metadata.get("budgetHourly").get("type")
+        cache = metadata.get("budgetHourly").get("url")
+        driverFile = self.readConf().get("driver")
+        testData = driverFile.get(self.test)
+        values = testData.get("scores")
+        key = str(testData.get("campaign_id"))+":"+getDate+":day_parting"
+        createNewJsonObject = {"mapping": {}}
+        # mapping = createNewJsonObject["mapping"]
+        createNewJsonObject["mapping"] = values
+        # print(mapping)
+        print(key)
+        print(values)
+        print(createNewJsonObject)
+        return key, createNewJsonObject, cache, insertType
+        # mapping[values] = values
 
     def insertApprovalData(self):
         metadata = json.load(open(self.readConf().get("redisFile")))
@@ -166,79 +196,113 @@ class dataInsertion():
         driverFile = self.readConf().get("driver")
         testData = driverFile.get(self.test)
         key = testData.get("companyURL")
-        creatives = testData.get("creativeMetadata")
+        # creatives = testData.get("creativeMetadata")
         createNewJsonObject = {"mapping": {}}
         cache = metadata.get("approval").get("url")
-        # cache = "core-dev-rtb-dev-creative-approval-cache.pid24g.clustercfg.usw2.cache.amazonaws.com"
         mapping = createNewJsonObject["mapping"]
-        mapping[key] = [data.get("creative_id") for data in creatives]
+        # mapping[key] = [data.get("creative_id") for data in creatives]
+        mapping[key] = [testData.get("creative_id")]
         return key,createNewJsonObject,cache,insertType
 
+    def insertBlockedGlobal(self):
+        metadata = json.load(open(self.readConf().get("redisFile")))
+        insertType = metadata.get("blockedGlobal").get("type")
+        driverFile = self.readConf().get("driver")
+        testData = driverFile.get(self.test)
+        cache = metadata.get("blockedGlobal").get("url")
+        key = str(testData.get("companyURL"))
+        value = "Blocked_12"
+        createNewJsonObject = {"mapping": {}}
+        mapping = createNewJsonObject["mapping"]
+        mapping[key] = value
+        return key, createNewJsonObject, cache, insertType
+        # 1021124_pub_block :"kom.googletest1.online"
+
+    def insertBlockedCampaign(self):
+        metadata = json.load(open(self.readConf().get("redisFile")))
+        insertType = metadata.get("blockedCampaign").get("type")
+        driverFile = self.readConf().get("driver")
+        testData = driverFile.get(self.test)
+        value = []
+        cache = metadata.get("blockedCampaign").get("url")
+        key = str(testData.get("campaign_id"))+"_pub_block"
+        value.append(testData.get("companyURL"))
+        createNewJsonObject = {"mapping": {}}
+        mapping = createNewJsonObject["mapping"]
+        mapping[key] = value
+        return key, createNewJsonObject, cache, insertType
 
     def insertRecencyData(self):
-        with open(self.metaPath) as meta:
-            jMeta = json.load(meta)
-        with open(self.jsonfile) as f:
-            data = json.load(f)
-            testData = data.get(self.test)
+        metadata = json.load(open(self.readConf().get("redisFile")))
+        insertType = metadata.get("recency").get("type")
+        driverFile = self.readConf().get("driver")
+        testData = driverFile.get(self.test)
         createNewJsonObject = {"mapping": {}}
         dt = round(time.time()*1000) - 11*1000
         mapping = createNewJsonObject["mapping"]
-        getChecks = testData.get("recency")
+        getChecks = testData.get("scores").get("recency")
         for i in range(0,len(getChecks)):
             times =  getChecks[i]
             dt = int((datetime.utcnow() - datetime(1970, 1, 1)).total_seconds())*1000 - times *60000
-            mapping[str(testData.get("advertiserId")+i)] = dt
+            mapping[str(testData.get("advertiser_id")+i)] = dt
         key = testData.get("ip")
         # cache =
         cache = "core-dev-recency.pid24g.clustercfg.usw2.cache.amazonaws.com"
         print(key, createNewJsonObject, cache)
-        return key,createNewJsonObject,cache
+        return key,createNewJsonObject,cache,insertType
 
     def insertHouseholdScore(self):
-        with open(self.metaPath) as meta:
-            jMeta = json.load(meta)
-        with open(self.jsonfile) as f:
-            data = json.load(f)
-            testData = data.get(self.test)
+        metadata = json.load(open(self.readConf().get("redisFile")))
+        insertType = metadata.get("household").get("type")
+        driverFile = self.readConf().get("driver")
+        testData = driverFile.get(self.test)
+        cache = metadata.get("household").get("url")
         createNewJsonObject = {"mapping": {}}
         mapping = createNewJsonObject["mapping"]
-        mapping["household_score"] = testData.get("scores").get("household_score")
+        scoreMapping = testData.get("scores").get("household_score")
+        mapping["household_score"] = scoreMapping
         key = testData.get("ip")
-        cache = "core-dev-household-score.pid24g.clustercfg.usw2.cache.amazonaws.com"
         print(key, createNewJsonObject, cache)
-        return key,createNewJsonObject,cache
-
-    def insertDataIntoTables(self):
-        load_dotenv()
-        metadata = json.load(open(self.readConf().get("dataFile")))
-        sqlstatement = ''
-        for table in metadata.get("tables"):
-            tablename = "bidder."+table
-            keylist = "("
-            valuelist = "("
-            firstPair = True
-            for key,value in metadata.get("tables").get(table).items():
-                if not firstPair:
-                    keylist += ", "
-                    valuelist += ", "
-                firstPair = False
-                keylist += key
-                if type(value) in (str, unicode):
-                    valuelist += "'" + value + "'"
-                else:
-                    valuelist += str(value)
-            keylist += ")"
-            valuelist += ")"
-            sqlstatement += "INSERT INTO " + tablename + " " + keylist + " VALUES " + valuelist + "\n"
-        stmts = sqlstatement.split("\n")
-        for inserts in stmts:
-            if len(inserts) > 0:
-                print(inserts)
-                connectToPostgres(os.environ['POSTGRES_HOST'],os.environ['POSTGRES_USER'],os.environ['POSTGRES_PW'],os.environ['POSTGRES_PORT'],inserts)
-        return stmts
+        return key,createNewJsonObject,cache,insertType
 
 
 
+    # def insertDataIntoTables(self):
+    #     metadata = json.load(open(self.readConf().get("redisFile")))
+    #     insertType = metadata.get("household").get("type")
+    #     driverFile = self.readConf().get("driver")
+    #     testData = driverFile.get(self.test)
+    #     load_dotenv()
+    #     metadata = json.load(open(self.readConf().get("dataFile")))
+    #     sqlstatement = ''
+    #     for table in metadata.get("tables"):
+    #         tablename = "bidder."+table
+    #         keylist = "("
+    #         valuelist = "("
+    #         firstPair = True
+    #         for key,value in metadata.get("tables").get(table).items():
+    #             if not firstPair:
+    #                 keylist += ", "
+    #                 valuelist += ", "
+    #             firstPair = False
+    #             keylist += key
+    #             if type(value) in (str, unicode):
+    #                 valuelist += "'" + value + "'"
+    #             else:
+    #                 valuelist += str(value)
+    #         keylist += ")"
+    #         valuelist += ")"
+    #         sqlstatement += "INSERT INTO " + tablename + " " + keylist + " VALUES " + valuelist + "\n"
+    #     stmts = sqlstatement.split("\n")
+    #     for inserts in stmts:
+    #         if len(inserts) > 0:
+    #             print(inserts)
+    #             connectToPostgres(os.environ['POSTGRES_HOST'],os.environ['POSTGRES_USER'],os.environ['POSTGRES_PW'],os.environ['POSTGRES_PORT'],inserts)
+    #     return stmts
 
 
+
+
+
+# if __name__ == "__main__":
+#     print(dataInsertion("MagniteBidRequestIpValidation").insertBudgetHourly())

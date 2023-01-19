@@ -1,0 +1,53 @@
+import json
+import csv
+import pandas as pd
+
+
+
+
+def ConvertToCsv(json,csv):
+    with open("../fixtures/testStructure.json") as json_file:
+        jsondata = json.load(json_file)
+    data_file = open("../fixtures/jsonTests.csv", 'w', newline='')
+    csv_writer = csv.writer(data_file)
+    count = 0
+    for data in jsondata:
+        if count == 0:
+            header = jsondata.get(data).keys()
+            csv_writer.writerow(header)
+            count += 1
+        csv_writer.writerow(jsondata.get(data).values())
+
+    data_file.close()
+
+
+def ConvertToJson(csvFilePath,jsonFilePath):
+    returnJsonObject = {}
+    excel_data_df = pd.read_excel(csvFilePath)
+    converToJson = excel_data_df.to_json(orient='records')
+    jsonObject = json.loads(converToJson)
+    for i in range(0,len(jsonObject) -1):
+        returnJsonObject[jsonObject[i].get("name")] = jsonObject[i]
+    retObj = json.dumps(returnJsonObject)
+    with open(jsonFilePath,"w") as outfile:
+        outfile.write(retObj)
+
+# def fixJsonObject(jsonFile):
+#     f = open(jsonFile)
+#     data = json.load(f)
+#     for keys,values in data.items():
+#         for k,v in values.items():
+#             if '"[' in v :
+#                 print(v)
+#
+#
+#             print(v)
+        # print(values)
+
+
+
+csvFilePath = "../fixtures/Magnite_Test_Cases_Oct20.xlsx"
+jsonFilePath = "../fixtures/testStructure.json"
+ConvertToJson(csvFilePath, jsonFilePath)
+# ConvertToCsv(csvFilePath, jsonFilePath)
+# fixJsonObject(jsonFilePath)

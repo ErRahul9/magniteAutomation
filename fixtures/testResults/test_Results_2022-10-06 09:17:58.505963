@@ -1,9 +1,0 @@
-bidRequest_MagniteBidRequestIpValidation : <Response [204]> : 204 : 
-bidRequest_MagniteBidRequestCompanyUrl : <Response [204]> : 204 : 
-bidRequest_MagniteBidRequestTimeZoneEST : <Response [204]> : 204 : 
-bidRequest_MagniteBidRequestTimeZonePST : <Response [204]> : 204 : 
-bidRequest_MagniteBidRequestTimeZoneMST : <Response [204]> : 204 : 
-bidRequest_MagniteBidRequestTimeZoneAST : <Response [204]> : 204 : 
-bidRequest_MagniteBidRequestTimeZoneCST : <Response [204]> : 204 : 
-bidRequest_MagniteBidRequestLinearNotEqualTo1 : <Response [204]> : 204 : 
-bidRequest_MagniteBidRequestSkipNotEqualTo0 : <Response [204]> : 204 : 

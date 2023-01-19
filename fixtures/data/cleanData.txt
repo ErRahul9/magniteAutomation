@@ -1,5 +1,5 @@
-delete from bidder.eligible_campaigns where campaign_id  = 11557787
-delete from bidder.advertiser_settings where advertiser_id  = 99778887
-delete from bidder.delivery_modifiers where delivery_modifier_id  = 133
-delete from bidder.campaign_settings where campaign_id  = 11557787
-delete from bidder.ctv_creative_metadata where creative_id  = 99447732
+delete from bidder.eligible_campaigns where campaign_id  = 11557799
+delete from bidder.advertiser_settings where advertiser_id  = 99778899
+delete from bidder.delivery_modifiers where delivery_modifier_id  = 121
+delete from bidder.campaign_settings where campaign_id  = 11557799
+delete from bidder.ctv_creative_metadata where creative_id  = 99447755

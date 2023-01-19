@@ -1,7 +1,10 @@
 import datetime
 import json
+import subprocess
 import time
 from dotenv import load_dotenv
+
+
 
 import requests
 from main import *
@@ -23,16 +26,21 @@ class runnerRunner():
             if self.keyword in tests:
                 self.testcases.append(tests.strip())
 
+    def refreshSecurityToken(self):
+        p = subprocess.Popen(['okta-awscli', '--profile', 'core', '--okta-profile', 'core'])
+        print(p.communicate())
 
     def APIRunner(self):
-        fileLoc = os.path.join(self.ROOTDIR, "{}/{}".format("fixtures","processFiles"))
+
+        fileLoc = os.path.join(self.ROOTDIR, "{}/{}".format("fixtures", "processFiles"))
         url = os.environ["MAGNITE_URL"]
         headers = {'Content-type': 'application/json'}
         tests = open(self.fixPath)
         resultsFileName = "test_Results_{}".format(datetime.datetime.now())
-        testResults = os.path.join(self.ROOTDIR,"fixtures/testResults/{}".format(resultsFileName))
-        file = open(testResults,"w+")
+        testResults = os.path.join(self.ROOTDIR, "fixtures/testResults/{}".format(resultsFileName))
+        file = open(testResults, "w+")
         for test in tests:
+            time.sleep(1)
             fileNames = "bidRequest_{0}".format(test.strip())
             with open(os.path.join(fileLoc, fileNames)) as f:
                 print("running test for {0}".format(fileNames))
@@ -40,12 +48,10 @@ class runnerRunner():
                 for line in f.readlines():
                     v += line.replace('\n', '').replace(' ', '')
                 x = requests.post(url=url, data=v, headers=headers)
-                file.write(fileNames + " : " +str(x)+ " : " +str(x.status_code)+ " : " +str(x.text) +"\n" )
+                file.write(fileNames + " : " + str(x) + " : " + str(x.status_code) + " : " + str(x.text) + "\n")
                 print(x)
                 print(x.status_code)
                 print(x.text)
-
-
 
     def settingUp(self):
         fixPath = os.path.join(self.fixPath)
@@ -77,10 +83,10 @@ class runnerRunner():
 
 
 if __name__ == '__main__':
-    if "yes" in runnerRunner().load.lower() :
+    runnerRunner().refreshSecurityToken()
+    if "yes" in runnerRunner().load.lower():
         load_dotenv()
         runnerRunner().settingUp()
         process_reload()
         time.sleep(5)
     runnerRunner().APIRunner()
-
