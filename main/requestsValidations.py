@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 
 
 import requests
+
+from dataInsertion import dataInsertion
 from main import *
 from dataload import process_reload
 

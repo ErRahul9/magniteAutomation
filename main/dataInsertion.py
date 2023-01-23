@@ -8,7 +8,7 @@ from pyparsing import unicode
 from config import globals
 from enumerator import database
 from magnite.main import enumerator
-from magnite.main.connectors import *
+from connectors import *
 
 
 class dataInsertion():
@@ -62,12 +62,18 @@ class dataInsertion():
         driverFile = self.readConf().get("driver")
         testData = driverFile.get(self.test)
         viewability = 0
+        perf = 0
         scores = testData.get("scores")
         for keys, values  in scores.items():
             if "viewability_score" in keys:
                 viewability = values
-            else:
-                viewability = 0
+            elif "performance" in scores.items():
+                perf = values
+
+            # else:
+            #     viewability = 0
+            #     perf = 0
+
         # viewability = testData.get("scores").get("viewability_score")
         createNewJsonObject  = {"mapping":{}}
         mapping = createNewJsonObject["mapping"]
@@ -76,6 +82,7 @@ class dataInsertion():
         mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_max_cpi"] = getCPIData.get("max_cpi")
         # mapping["viewability_rate"] = getCPIData.get("viewability_rate")
         mapping["viewability_rate"] = viewability
+        mapping["performance"] = perf
         key = testData.get("companyURL")
         cache = metadata.get("price").get("url")
         # cache = "core-dev-bidder-price-optimize.pid24g.clustercfg.usw2.cache.amazonaws.com"

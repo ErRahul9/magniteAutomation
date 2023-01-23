@@ -3,7 +3,7 @@
     "url": "core-dev-bidder-price-optimize.pid24g.clustercfg.usw2.cache.amazonaws.com",
     "type": "hm",
     "method": "insertBidderObject",
-    "cpi": { "avg_cpi": 9001,"min_cpi": 980,"max_cpi": 999,"viewability_rate": 0}
+    "cpi": { "avg_cpi": 9001,"min_cpi": 980,"max_cpi": 999,"viewability_rate": 0,"performace": 0}
 
   },
   "metadata": {
@@ -20,9 +20,11 @@
 		"objective_id": 112,
 		"channel_id": 112,
 		"recency_threshold": 0,
+        "recency_type": "",
 		"household_score_threshold": 0,
 		"viewability_score_threshold": 0,
 		"publisher_price_threshold": 0,
+        "publisher_performance_threshold": 0,
 		"pace_multiplier": 1
 	}
   },

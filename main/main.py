@@ -9,9 +9,7 @@ from pyparsing import unicode
 
 import enumerator
 from config import globals
-from magnite.main.connectors import *
-from magnite.main.dataInsertion import dataInsertion
-import requests
+from connectors import *
 from datasetUps import datasetups
 
 
