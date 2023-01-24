@@ -7,7 +7,7 @@ from pyparsing import unicode
 # from dotenv import load_dotenv
 from config import globals
 from enumerator import database
-from magnite.main import enumerator
+import enumerator
 from connectors import *
 
 
