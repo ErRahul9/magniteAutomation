@@ -1,11 +1,12 @@
 import os
 
 import psycopg2
-from rediscluster import RedisCluster
+from redis.cluster import RedisCluster
+from redis.cluster import ClusterNode
 
 def connectToCache(host, port, mapping, key,action,insertType):
     ROOTDIR = os.path.realpath(os.path.join(os.path.dirname(__file__), "..","resources"))
-    startup_nodes = [{"host": host, "port": port}]
+    startup_nodes = [ClusterNode(host, port)]
     rc = RedisCluster(startup_nodes=startup_nodes, decode_responses=True, skip_full_coverage_check=True)
     getValue = ""
     if "insert" in action:
