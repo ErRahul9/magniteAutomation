@@ -1,1 +1,1 @@
-MagniteBidRequestPerformanceThresholdSet
+MagniteBidRequestPerformanceThresholdGreaterThenScore

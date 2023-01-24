@@ -3,9 +3,6 @@ import json
 import subprocess
 import time
 from dotenv import load_dotenv
-
-
-
 import requests
 
 from dataInsertion import dataInsertion

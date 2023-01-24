@@ -67,10 +67,10 @@ class dataInsertion():
         for keys, values  in scores.items():
             if "viewability_score" in keys:
                 viewability = values
-            elif "performance" in scores.items():
+            elif "performance" in keys:
                 perf = values
 
-            # else:
+            # else:performace
             #     viewability = 0
             #     perf = 0
 
@@ -80,9 +80,10 @@ class dataInsertion():
         mapping[str(testData.get("width"))+":"+str(testData.get("height"))+"_avg_cpi"] = getCPIData.get("avg_cpi")
         mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_min_cpi"] = getCPIData.get("min_cpi")
         mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_max_cpi"] = getCPIData.get("max_cpi")
+        mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_performance"] = perf
         # mapping["viewability_rate"] = getCPIData.get("viewability_rate")
         mapping["viewability_rate"] = viewability
-        mapping["performance"] = perf
+        # mapping["performance"] = perf
         key = testData.get("companyURL")
         cache = metadata.get("price").get("url")
         # cache = "core-dev-bidder-price-optimize.pid24g.clustercfg.usw2.cache.amazonaws.com"
