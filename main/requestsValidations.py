@@ -35,7 +35,7 @@ class runnerRunner():
         url = os.environ["MAGNITE_URL"]
         headers = {'Content-type': 'application/json'}
         tests = open(self.fixPath)
-        resultsFileName = "test_Results_{}".format(datetime.datetime.now())
+        resultsFileName = "test_Results_{}".format(datetime.datetime.now()).replace(':','.')
         testResults = os.path.join(self.ROOTDIR, "fixtures/testResults/{}".format(resultsFileName))
         file = open(testResults, "w+")
         for test in tests:
