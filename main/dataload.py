@@ -7,7 +7,8 @@ import json
 from pyformance import MetricsRegistry
 # from wavefront_pyformance.wavefront_reporter import WavefrontDirectReporter
 from psycopg2.extras import RealDictCursor
-from rediscluster import RedisCluster
+from redis.cluster import RedisCluster
+from redis.cluster import ClusterNode
 # from dotenv import load_dotenv
 FORMAT = '%(asctime)-15s %(message)s'
 logging.basicConfig(format=FORMAT)
@@ -31,7 +32,7 @@ def reload_campaigns():
 def process_reload():
     try:
         logger.info("Start up redis connection")
-        startup_nodes = [{"host": os.environ['REDIS_HOST'], "port": os.environ['REDIS_PORT']}]
+        startup_nodes = [ClusterNode(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'])]
         rc = RedisCluster(startup_nodes=startup_nodes, decode_responses=True, skip_full_coverage_check=True)
 
         connection = psycopg2.connect(user=os.environ['POSTGRES_USER'],
