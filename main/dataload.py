@@ -105,7 +105,7 @@ def process_reload():
 
                 campaignId = record['campaign_id'] or ''
                 with connection.cursor(cursor_factory=RealDictCursor) as creative_cursor:
-                    creative_cursor.execute("select width, height, creative_id, campaign_id, media_duration "
+                    creative_cursor.execute("select width, height, creative_id, campaign_id, media_duration , recency_type "
                                         "from bidder.ctv_creative_metadata "
                                         "where campaign_id = " + str(campaignId) + ";")
 

@@ -32,7 +32,7 @@ def connectToPostgres(dburl,user,passd,port,query):
     conn = psycopg2.connect(database="qacoredb", user=user, password=passd, host= dburl, port=port)
     conn.autocommit = True
     cursor = conn.cursor()
-    # print("inserting data into postgres for {0}".format(query))
+    print("inserting data into postgres for {0}".format(query))
     cursor.execute(query)
     # print("insert complete")
     conn.commit()

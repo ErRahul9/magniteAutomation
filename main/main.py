@@ -144,7 +144,7 @@ class main():
             # cache = cache
             print("deleting data from cache {0}".format(cache))
             retVal = connectToCache(cache, 6379, metadata, key, "delete", insertType)
-            retData.append("deleted :  " + cache + "   :" + str(retVal))
+        retData.append("deleted :  " + cache + "   :" + str(retVal))
 
         return retData
 

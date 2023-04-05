@@ -46,11 +46,9 @@ class dataInsertion():
             if "threshold" not in keys:
                 mapping[keys] = testData.get(keys)
             else:
-                # mapping[keys] = testData.get("thresholds").get(keys)
                 mapping[keys] = testData.get(keys)
         key = "crid_"+str(testData.get("creative_id"))
         cache = metadata.get("metadata").get("url")
-        # cache = "core-dev-bidder-metadata.pid24g.clustercfg.usw2.cache.amazonaws.com"
         print(key ,createNewJsonObject ,cache,insertType)
         return key ,createNewJsonObject ,cache,insertType
 
@@ -70,20 +68,13 @@ class dataInsertion():
             elif "performance" in keys:
                 perf = values
 
-            # else:performace
-            #     viewability = 0
-            #     perf = 0
-
-        # viewability = testData.get("scores").get("viewability_score")
         createNewJsonObject  = {"mapping":{}}
         mapping = createNewJsonObject["mapping"]
         mapping[str(testData.get("width"))+":"+str(testData.get("height"))+"_avg_cpi"] = getCPIData.get("avg_cpi")
         mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_min_cpi"] = getCPIData.get("min_cpi")
         mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_max_cpi"] = getCPIData.get("max_cpi")
         mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_performance"] = perf
-        # mapping["viewability_rate"] = getCPIData.get("viewability_rate")
-        mapping["viewability_rate"] = viewability
-        # mapping["performance"] = perf
+        mapping[str(testData.get("width")) + ":" + str(testData.get("height")) + "_viewability_rate"] = viewability
         key = testData.get("companyURL")
         cache = metadata.get("price").get("url")
         # cache = "core-dev-bidder-price-optimize.pid24g.clustercfg.usw2.cache.amazonaws.com"
@@ -110,7 +101,11 @@ class dataInsertion():
             times =  getChecks[i]
             dt = int((datetime.utcnow() - datetime(1970, 1, 1)).total_seconds())*1000 - times *60000
             mapping[str(testData.get("advertiserId")+i)] = dt
-        key = testData.get("ip")
+        if "vast" in testData.get("recency_type"):
+            key = testData.get("ip") + "_vast"
+        else:
+            key = testData.get("ip")
+        # key = testData.get("ip")
         cache = "core-dev-recency.pid24g.clustercfg.usw2.cache.amazonaws.com"
         print(key, createNewJsonObject, cache,insertType)
         return key,createNewJsonObject,cache,insertType
@@ -275,42 +270,3 @@ class dataInsertion():
 
 
 
-    # def insertDataIntoTables(self):
-    #     metadata = json.load(open(self.readConf().get("redisFile")))
-    #     insertType = metadata.get("household").get("type")
-    #     driverFile = self.readConf().get("driver")
-    #     testData = driverFile.get(self.test)
-    #     load_dotenv()
-    #     metadata = json.load(open(self.readConf().get("dataFile")))
-    #     sqlstatement = ''
-    #     for table in metadata.get("tables"):
-    #         tablename = "bidder."+table
-    #         keylist = "("
-    #         valuelist = "("
-    #         firstPair = True
-    #         for key,value in metadata.get("tables").get(table).items():
-    #             if not firstPair:
-    #                 keylist += ", "
-    #                 valuelist += ", "
-    #             firstPair = False
-    #             keylist += key
-    #             if type(value) in (str, unicode):
-    #                 valuelist += "'" + value + "'"
-    #             else:
-    #                 valuelist += str(value)
-    #         keylist += ")"
-    #         valuelist += ")"
-    #         sqlstatement += "INSERT INTO " + tablename + " " + keylist + " VALUES " + valuelist + "\n"
-    #     stmts = sqlstatement.split("\n")
-    #     for inserts in stmts:
-    #         if len(inserts) > 0:
-    #             print(inserts)
-    #             connectToPostgres(os.environ['POSTGRES_HOST'],os.environ['POSTGRES_USER'],os.environ['POSTGRES_PW'],os.environ['POSTGRES_PORT'],inserts)
-    #     return stmts
-
-
-
-
-
-# if __name__ == "__main__":
-#     print(dataInsertion("MagniteBidRequestIpValidation").insertBudgetHourly())

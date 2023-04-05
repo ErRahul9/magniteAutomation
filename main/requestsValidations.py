@@ -26,11 +26,10 @@ class runnerRunner():
                 self.testcases.append(tests.strip())
 
     def refreshSecurityToken(self):
-        p = subprocess.Popen(['okta-awscli', '--profile', 'core', '--okta-profile', 'core'])
-        print(p.communicate())
+        subprocess.Popen(['okta-awscli', '--profile', 'core', '--okta-profile', 'core'],1)
+
 
     def APIRunner(self):
-
         fileLoc = os.path.join(self.ROOTDIR, "{}/{}".format("fixtures", "processFiles"))
         url = os.environ["MAGNITE_URL"]
         headers = {'Content-type': 'application/json'}
@@ -51,6 +50,7 @@ class runnerRunner():
                 print(x)
                 print(x.status_code)
                 print(x.text)
+        return resultsFileName
 
     def settingUp(self):
         fixPath = os.path.join(self.fixPath)

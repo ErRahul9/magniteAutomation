@@ -9,6 +9,7 @@ class bid(enum.Enum):
     width ="w"
     linear = "linearity"
     skip="skip"
+    deviceType="devicetype"
 
 class database(enum.Enum):
     campaign_id = "campaign_id"
